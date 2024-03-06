@@ -14,20 +14,27 @@ function App() {
   const fetchWeatherData = async () => {
     if (city) {
       setIsLoading(true);
-      try {
-        let response = await fetch(`${API_ENDPOINT}?key=${API_KEY}&q=${city}`);
-        console.log(response);
-        if (response.status === 200) {
-          let data = await response.json();
+      await fetch(`${API_ENDPOINT}?key=${API_KEY}&q=${city}`)
+        .then((res) => {
+          if (!res.ok) {
+            alert("Failed to fetch weather data");
+            console.log(
+              `Failed to fetch data: ${res.status} ${res.statusText}`
+            );
+          }
+          return res.json();
+        })
+        .then((data) => {
           setTemperature(data);
-        }
-      } catch (error) {
-        console.error("Error fetching weather data:", error.message);
-        alert("Failed to fetch weather data");
-        setTemperature({});
-      } finally {
-        setIsLoading(false);
-      }
+        })
+        .catch((err) => {
+          console.error("Error while fetching the data: ", err);
+          alert("Failed to fetch weather data");
+          setIsLoading(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
@@ -57,7 +64,7 @@ function App() {
         </div>
       </form>
       {isLoading && <p className="text-center">Loading data… </p>}
-      {!isLoading && temperature && (
+      {!isLoading && temperature && temperature.current && (
         <div className="row">
           <div className="col-lg-3 col-sm-6 col-12">
             <Card
