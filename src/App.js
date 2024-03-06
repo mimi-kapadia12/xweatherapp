@@ -35,10 +35,7 @@ function App() {
         console.error("Error while fetching the data: ", error);
         alert("Failed to fetch weather data");
       } finally {
-        // Set a minimum delay before resetting the loading state to false
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
+        setIsLoading(false);
       }
     }
   };
