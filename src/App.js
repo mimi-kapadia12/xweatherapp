@@ -12,7 +12,7 @@ function App() {
   const API_ENDPOINT = "https://api.weatherapi.com/v1/current.json";
 
   const fetchWeatherData = async () => {
-    if (city) {
+    if (city && city.trim()) {
       setIsLoading(true);
       try {
         const response = await fetch(
