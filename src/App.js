@@ -20,12 +20,12 @@ function App() {
         );
 
         if (!response.ok) {
+          setTemperature({});
+          setIsLoading(false);
           alert("Failed to fetch weather data");
           console.log(
             `Failed to fetch data: ${response.status} ${response.statusText}`
           );
-          setTemperature({});
-          setIsLoading(false);
           return;
         }
 
