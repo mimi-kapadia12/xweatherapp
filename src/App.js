@@ -14,29 +14,61 @@ function App() {
   const fetchWeatherData = async () => {
     if (city) {
       setIsLoading(true);
-      await fetch(`${API_ENDPOINT}?key=${API_KEY}&q=${city}`)
-        .then((res) => {
-          if (!res.ok) {
-            alert("Failed to fetch weather data");
-            console.log(
-              `Failed to fetch data: ${res.status} ${res.statusText}`
-            );
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setTemperature(data);
-        })
-        .catch((err) => {
-          console.error("Error while fetching the data: ", err);
+      try {
+        const response = await fetch(
+          `${API_ENDPOINT}?key=${API_KEY}&q=${city}`
+        );
+
+        if (!response.ok) {
           alert("Failed to fetch weather data");
+          console.log(
+            `Failed to fetch data: ${response.status} ${response.statusText}`
+          );
+          setTemperature({});
           setIsLoading(false);
-        })
-        .finally(() => {
+          return;
+        }
+
+        const data = await response.json();
+        setTemperature(data);
+      } catch (error) {
+        console.error("Error while fetching the data: ", error);
+        alert("Failed to fetch weather data");
+      } finally {
+        // Set a minimum delay before resetting the loading state to false
+        setTimeout(() => {
           setIsLoading(false);
-        });
+        }, 500);
+      }
     }
   };
+
+  // const fetchWeatherData = async () => {
+  //   if (city) {
+  //     setIsLoading(true);
+  //     await fetch(`${API_ENDPOINT}?key=${API_KEY}&q=${city}`)
+  //       .then((res) => {
+  //         if (!res.ok) {
+  //           alert("Failed to fetch weather data");
+  //           console.log(
+  //             `Failed to fetch data: ${res.status} ${res.statusText}`
+  //           );
+  //         }
+  //         return res.json();
+  //       })
+  //       .then((data) => {
+  //         setTemperature(data);
+  //       })
+  //       .catch((err) => {
+  //         console.error("Error while fetching the data: ", err);
+  //         alert("Failed to fetch weather data");
+  //         setIsLoading(false);
+  //       })
+  //       .finally(() => {
+  //         setIsLoading(false);
+  //       });
+  //   }
+  // };
 
   return (
     <div className="container">
