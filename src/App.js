@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [city, setCity] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [temperature, setTemperature] = useState();
 
   const API_KEY = "e61fd350bc694fbabf4160224232809";
@@ -13,7 +13,7 @@ function App() {
 
   const fetchWeatherData = async () => {
     if (city && city.trim()) {
-      setLoading(true);
+      setIsLoading(true);
       try {
         const response = await fetch(
           `${API_ENDPOINT}?key=${API_KEY}&q=${city}`
@@ -21,7 +21,7 @@ function App() {
 
         if (!response.ok) {
           setTemperature({});
-          setLoading(false);
+          setIsLoading(false);
           alert("Failed to fetch weather data");
           console.log(
             `Failed to fetch data: ${response.status} ${response.statusText}`
@@ -35,7 +35,7 @@ function App() {
         console.error("Error while fetching the data: ", error);
         alert("Failed to fetch weather data");
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
   };
@@ -68,7 +68,7 @@ function App() {
   // };
 
   return (
-    <div className="container App">
+    <div className="container">
       <form className="form-inline my-2">
         <div className="input-group">
           <input
@@ -92,8 +92,8 @@ function App() {
           </div>
         </div>
       </form>
-      {loading && <p>Loading data…</p>}
-      {!loading && temperature && temperature.current && (
+      {isLoading && <p className="text-center">Loading data…</p>}
+      {!isLoading && temperature && temperature.current && (
         <div className="row">
           <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
