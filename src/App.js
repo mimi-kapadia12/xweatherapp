@@ -12,9 +12,8 @@ function App() {
   const API_ENDPOINT = "https://api.weatherapi.com/v1/current.json";
 
   const fetchWeatherData = async () => {
+    setIsLoading(true);
     if (city && city.trim()) {
-      setIsLoading(true);
-
       try {
         const response = await fetch(
           `${API_ENDPOINT}?key=${API_KEY}&q=${city}`
@@ -122,7 +121,7 @@ function App() {
       </form>
       {isLoading && <p className="text-center">Loading data…</p>}
       {!isLoading && temperature && temperature.current && (
-        <div className="row">
+        <div className="row weather-cards">
           <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
               title="Temperature"
