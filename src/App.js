@@ -119,7 +119,7 @@ function App() {
           </div>
         </div>
       </form>
-      {isLoading && <p className="text-center">Loading data…</p>}
+      {isLoading && <p className="text-center">Loading data...</p>}
       {!isLoading && temperature && temperature.current && (
         <div className="row weather-cards">
           <div className="col-lg-3 col-sm-6 col-12 weather-card">
