@@ -95,25 +95,25 @@ function App() {
       {isLoading && <p className="text-center">Loading data…</p>}
       {!isLoading && temperature && temperature.current && (
         <div className="row">
-          <div className="col-lg-3 col-sm-6 col-12 weather-card">
+          <div className="col-lg-3 col-sm-6 col-12">
             <Card
               title="Temperature"
               value={`${temperature.current.temp_c}°C`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12 weather-card">
+          <div className="col-lg-3 col-sm-6 col-12">
             <Card
               title="Humidity"
               value={`${temperature.current.humidity}%`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12 weather-card">
+          <div className="col-lg-3 col-sm-6 col-12">
             <Card
               title="Condition"
               value={`${temperature.current.condition.text}`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12 weather-card">
+          <div className="col-lg-3 col-sm-6 col-12">
             <Card
               title="Wind Speed"
               value={`${temperature.current.wind_kph} kph`}
