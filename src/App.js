@@ -14,23 +14,22 @@ function App() {
   const fetchWeatherData = async () => {
     if (city && city.trim()) {
       setIsLoading(true);
+
       try {
         const response = await fetch(
           `${API_ENDPOINT}?key=${API_KEY}&q=${city}`
         );
 
         if (!response.ok) {
-          setTemperature({});
-          setIsLoading(false);
           alert("Failed to fetch weather data");
           console.log(
             `Failed to fetch data: ${response.status} ${response.statusText}`
           );
-          return;
+          setTemperature({});
+        } else {
+          const data = await response.json();
+          setTemperature(data);
         }
-
-        const data = await response.json();
-        setTemperature(data);
       } catch (error) {
         console.error("Error while fetching the data: ", error);
         alert("Failed to fetch weather data");
@@ -39,6 +38,35 @@ function App() {
       }
     }
   };
+
+  // const fetchWeatherData = async () => {
+  //   if (city && city.trim()) {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         `${API_ENDPOINT}?key=${API_KEY}&q=${city}`
+  //       );
+
+  //       if (!response.ok) {
+  //         alert("Failed to fetch weather data");
+  //         console.log(
+  //           `Failed to fetch data: ${response.status} ${response.statusText}`
+  //         );
+  //         setTemperature({});
+  //         setIsLoading(false);
+  //         return;
+  //       }
+
+  //       const data = await response.json();
+  //       setTemperature(data);
+  //     } catch (error) {
+  //       console.error("Error while fetching the data: ", error);
+  //       alert("Failed to fetch weather data");
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // };
 
   // const fetchWeatherData = async () => {
   //   if (city) {
@@ -95,25 +123,25 @@ function App() {
       {isLoading && <p className="text-center">Loading data…</p>}
       {!isLoading && temperature && temperature.current && (
         <div className="row">
-          <div className="col-lg-3 col-sm-6 col-12">
+          <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
               title="Temperature"
               value={`${temperature.current.temp_c}°C`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12">
+          <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
               title="Humidity"
               value={`${temperature.current.humidity}%`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12">
+          <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
               title="Condition"
               value={`${temperature.current.condition.text}`}
             ></Card>
           </div>
-          <div className="col-lg-3 col-sm-6 col-12">
+          <div className="col-lg-3 col-sm-6 col-12 weather-card">
             <Card
               title="Wind Speed"
               value={`${temperature.current.wind_kph} kph`}
